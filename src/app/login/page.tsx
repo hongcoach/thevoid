@@ -13,7 +13,7 @@ export default function LoginPage() {
     const handleGoogleLogin = async () => {
         try {
             await loginWithGoogle();
-            router.push("/");
+            router.push("/chat");
         } catch (err: any) {
             setError("Google login failed. Please try again.");
             console.error(err);
@@ -23,7 +23,7 @@ export default function LoginPage() {
     const handleAnonymousLogin = async () => {
         try {
             await loginAnonymously();
-            router.push("/");
+            router.push("/chat");
         } catch (err: any) {
             setError("Anonymous login failed.");
             console.error(err);
