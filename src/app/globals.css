@@ -11,12 +11,52 @@
 body {
   color: rgb(var(--foreground-rgb));
   background-color: #020617;
-  background-image:
-    radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 1) 0, transparent 50%),
-    radial-gradient(at 50% 0%, hsla(225, 39%, 30%, 1) 0, transparent 50%),
-    radial-gradient(at 100% 0%, hsla(339, 49%, 30%, 1) 0, transparent 50%);
-  min-height: 100vh;
-  font-feature-settings: "rlig" 1, "calt" 1;
+  font-family: var(--font-inter), var(--font-noto-sans-kr), sans-serif;
+  /* Global Font Stack */
+  overflow-x: hidden;
+}
+
+/* Premium Button Styles */
+.btn-void {
+  position: relative;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05), 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.btn-void:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 0 30px rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.btn-void::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.1),
+      transparent);
+  transition: left 0.5s ease;
+}
+
+.btn-void:hover::before {
+  left: 100%;
+}
+
+/* Text Gradients */
+.text-gradient-void {
+  background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 @layer utilities {
