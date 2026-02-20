@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { User, onAuthStateChanged, signInWithPopup, signInAnonymously, signOut } from "firebase/auth";
+import { User, onAuthStateChanged, signInWithPopup, signInWithRedirect, signInAnonymously, signOut } from "firebase/auth";
 import { auth, googleProvider } from "@/lib/firebase";
 
 interface AuthContextType {
@@ -29,9 +29,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const loginWithGoogle = async () => {
         try {
             await signInWithPopup(auth, googleProvider);
-        } catch (error) {
-            console.error("Google Login Failed", error);
-            throw error;
+        } catch (error: any) {
+            console.error("Google Login Popup Failed", error);
+            // Fallback for popup blockers or mobile webviews
+            if (error.code === 'auth/popup-closed-by-user' || error.code === 'auth/popup-blocked') {
+                console.warn("Popup blocked/closed, falling back to redirect...");
+                try {
+                    await signInWithRedirect(auth, googleProvider);
+                } catch (redirectError) {
+                    console.error("Google Login Redirect Failed", redirectError);
+                    throw redirectError;
+                }
+            } else {
+                throw error;
+            }
         }
     };
 
